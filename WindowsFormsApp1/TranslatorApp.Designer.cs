@@ -1,6 +1,6 @@
 ﻿namespace WindowsFormsApp1
 {
-    partial class Form1
+    partial class TranslatorApp
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -38,19 +38,19 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // Form1
+            // TranslatorApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "TranslatorApp"; 
+            this.Text = "Translator App"; // Заголовок окна
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
     }
 }
-
