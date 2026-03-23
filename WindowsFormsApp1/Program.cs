@@ -11,7 +11,6 @@ namespace WindowsFormsApp1
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
-        /// тестовый комментарий
         [STAThread]
         static void Main()
         {
