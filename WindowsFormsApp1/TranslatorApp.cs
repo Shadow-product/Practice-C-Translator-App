@@ -9,5 +9,10 @@ namespace WindowsFormsApp1
         {
             InitializeComponent();
         }
+
+        private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
     }
 }
