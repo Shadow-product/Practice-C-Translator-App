@@ -14,5 +14,10 @@ namespace WindowsFormsApp1
         {
 
         }
+
+        private void TranslatorApp_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
