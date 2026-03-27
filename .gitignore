@@ -1,14 +1,37 @@
-## Служебные папки Visual Studio
-.vs/
+## --- Результаты сборки (Build Results) ---
 [Bb]in/
 [Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+TestResults/
 
-## Пользовательские настройки
+## --- Служебные папки и кэш Visual Studio ---
+.vs/
+.sonarlint/
+*.suo
 *.user
 *.userosscache
 *.sln.docuser
+*.opendb
+*.dbmdl
 
-## Временные файлы сборки
+## --- NuGet Пакеты (Критически важно для MySql.Data) ---
+# Игнорируем сами папки с библиотеками, так как они весят много
+packages/
+# Разрешаем NuGet восстанавливать пакеты по конфигам
+!packages/build/
+*.nupkg
+
+## --- Временные файлы и логи ---
 *.log
 *.cache
 *.tmp
+*.tmp_proj
+*.bak
+
+## --- Базы данных и Секреты ---
+# Если у вас есть локальные файлы БД или конфиги с паролями
+*.mdf
+*.ldf
+*.db
+App.config.local
