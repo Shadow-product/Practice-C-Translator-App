@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
-using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 public class TranslationService
 {
     private readonly string apiKey = "ТВОЙ_API_KEY";
@@ -9,20 +10,28 @@ public class TranslationService
     {
         using (HttpClient client = new HttpClient())
         {
-            var content = new FormUrlEncodedContent(new[]
+            string url = $"https://translation.googleapis.com/language/translate/v2?key={apiKey}";
+
+            var jsonBody = new
             {
-                new KeyValuePair<string, string>("text", text),
-                new KeyValuePair<string, string>("target_lang", targetLang)
-            });
+                q = text,
+                target = targetLang,
+                format = "text"
+            };
 
-            client.DefaultRequestHeaders.Add("Authorization", $"DeepL-Auth-Key {apiKey}");
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(jsonBody);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await client.PostAsync(
-                "https://api-free.deepl.com/v2/translate",
-                content
-            );
+            HttpResponseMessage response = await client.PostAsync(url, content);
+            string responseBody = await response.Content.ReadAsStringAsync();
 
-            return await response.Content.ReadAsStringAsync();
+            return ExtractTranslation(responseBody);
         }
+    }
+
+    private string ExtractTranslation(string json)
+    {
+        var obj = JObject.Parse(json);
+        return obj["data"]["translations"][0]["translatedText"].ToString();
     }
 }
