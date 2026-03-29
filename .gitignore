@@ -35,3 +35,4 @@ packages/
 *.ldf
 *.db
 App.config.local
+/WindowsFormsApp1/secrets.config
