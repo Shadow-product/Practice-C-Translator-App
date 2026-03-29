@@ -1,7 +1,8 @@
 ﻿using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json; // Для JsonConvert.DeserializeObject
+using Newtonsoft.Json.Linq; // Для работы с JObject (динамический JSON)
 public class TranslationService
 {
     private readonly string apiKey = "ТВОЙ_API_KEY";
