@@ -100,6 +100,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Translation.cs" />
+    <Compile Include="TranslationRepository.cs" />
     <Compile Include="TranslatorApp.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +111,8 @@
     <Compile Include="TranslatorService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="UserRepository.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

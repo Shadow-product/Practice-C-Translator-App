@@ -9,8 +9,16 @@ namespace WindowsFormsApp1
 {
     public partial class TranslatorApp : Form
     {
-        // Создаем экземпляр твоего сервиса
+
         private TranslationService _translationService = new TranslationService();
+        private TranslationRepository _translationRepository;
+
+        // Подключение к UserRepository и текущему пользователю для сохранения информации о том, кто сделал перевод
+        // Пока не работает необходимо добавить в дизайн формы ComboBox для выбора пользователя и загрузку
+        // пользователей из БД при загрузке формы
+        // private UserRepository _userRepository;
+        // private User _currentUser;
+
 
         public TranslatorApp()
         {
@@ -19,33 +27,47 @@ namespace WindowsFormsApp1
 
         private void TranslatorApp_Load(object sender, EventArgs e)
         {
-            // Проверка БД при запуске
-            CheckDbConnection();
-        }
-
-        // Чтение строки подключения из файла App.config TranslatorAppDb имя строки подключения
-        private void CheckDbConnection()
-        {
             try
             {
+                // Чтение строки подключения из файла App.config TranslatorAppDb имя строки подключения
                 string connectionString = ConfigurationManager.ConnectionStrings["TranslatorAppDb"].ConnectionString;
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
+                _translationRepository = new TranslationRepository(connectionString);
+                //_userRepository = new UserRepository(connectionString);
+
+                // Проверка подключения к базе данных 
+                if (_translationRepository.CheckDbConnection())
+                    //&& _userRepository.CheckDbConnection())
                     lblStatus.Text = "База данных: Подключено";
-                }
+                else
+                    lblStatus.Text = "База данных: Ошибка";
             }
             catch (Exception ex)
             {
                 lblStatus.Text = "База данных: Ошибка";
-                MessageBox.Show("Ошибка подключения к MySQL: " + ex.Message);
+                MessageBox.Show($"❌ Ошибка подключения: {ex.Message}");
             }
         }
+
+        //private void LoadUsers()
+        //{
+        //    cbUsers.DataSource = _userRepository.GetAllUsers();
+        //    cbUsers.DisplayMember = "Username";
+        //    cbUsers.ValueMember = "Id";
+        //}
+
+        //private void cbUsers_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    _currentUser = (User)cbUsers.SelectedItem;
+        //}
 
         // Обработчик кнопки перевода
         private async void btnTranslate_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtSource.Text)) return;
+            //if (_currentUser == null)
+            //{
+            //    MessageBox.Show("Выберите пользователя!");
+            //    return;
+            //}
 
             btnTranslate.Enabled = false;
             progressBar.Visible = true;
@@ -53,17 +75,28 @@ namespace WindowsFormsApp1
 
             try
             {
-                // Определяем целевой язык (например, из ComboBox или просто "ru")
+                // Определение целевого языка (например, из ComboBox или просто "ru")
                 string targetLang = cbTargetLang.SelectedItem?.ToString() == "Английский" ? "en" : "ru";
 
-                // ВЫЗОВ ТВОЕГО СЕРВИСА
+                // вызов сервиса перевода TranslationService файл для получения перевода
                 string result = await _translationService.TranslateText(txtSource.Text, targetLang);
 
                 txtTarget.Text = result;
                 lblStatus.Text = "Готово";
 
-                // ТУТ МОЖНО ДОБАВИТЬ СОХРАНЕНИЕ В MYSQL
-                // SaveToHistory(txtSource.Text, result, targetLang);
+                // Сохранение в БД через репозиторий класса TranslationRepository и модели Translation
+                var translation = new Translation
+                {
+                    SourceText = txtSource.Text,
+                    TargetLanguage = targetLang,
+                    TranslatedText = result,
+                    DetectedLanguage = "ru", // можно доработать автоопределение
+                    CreatedAt = DateTime.Now,
+                    //UserId = _currentUser.Id // Пока не работает необходимо добавить в дизайн формы ComboBox для выбора пользователя и загрузку
+                };
+
+                _translationRepository.SaveTranslation(translation);
+
             }
             catch (Exception ex)
             {
