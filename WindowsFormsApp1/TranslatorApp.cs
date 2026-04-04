@@ -100,8 +100,8 @@ namespace WindowsFormsApp1
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка перевода: {ex.Message}");
-                lblStatus.Text = "Ошибка";
+                lblStatus.Text = "Ошибка перевода";
+                MessageBox.Show($" ❌ Ошибка перевода: {ex.Message}");
             }
             finally
             {
