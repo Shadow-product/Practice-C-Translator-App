@@ -1,9 +1,9 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Configuration;
-using System.Data.SqlClient;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
+using WindowsFormsApp1;
+using System.Threading.Tasks; // Для асинхронной работы
 
 namespace WindowsFormsApp1
 {
@@ -23,6 +23,7 @@ namespace WindowsFormsApp1
             CheckDbConnection();
         }
 
+        // Чтение строки подключения из файла App.config TranslatorAppDb имя строки подключения
         private void CheckDbConnection()
         {
             try
@@ -66,7 +67,7 @@ namespace WindowsFormsApp1
             }
             catch (Exception ex)
             {
-                MessageBox.Add($"Ошибка перевода: {ex.Message}");
+                MessageBox.Show($"Ошибка перевода: {ex.Message}");
                 lblStatus.Text = "Ошибка";
             }
             finally
