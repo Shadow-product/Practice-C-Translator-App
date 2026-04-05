@@ -21,7 +21,8 @@ namespace WindowsFormsApp1
         [Column("username")]
         public string Username { get; set; }
 
-        // Навигационное свойство: один пользователь -> много переводов
+        // Навигационное свойство: один пользователь -> много переводов 
+        // Связи между таблицами с указанием типа связи (один ко многим)
         public ICollection<Translation> Translations { get; set; }
     }
 }

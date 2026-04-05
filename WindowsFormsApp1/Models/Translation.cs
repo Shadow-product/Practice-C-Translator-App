@@ -36,6 +36,7 @@ namespace WindowsFormsApp1
         public int UserId { get; set; }
 
         // Навигационное свойство: перевод связан с одним пользователем
+        // Связи между таблицами с указанием типа связи (один ко многим)
         public User Owner{ get; set; }
     }
 }
