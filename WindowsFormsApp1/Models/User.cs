@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WindowsFormsApp1
+using System.Collections.Generic; // коллекции: List<T>, ICollection<T>, Dictionary<T>
+
+namespace WindowsFormsApp1.Models
 {
     // Модель данных для хранения пользователей таблицы users в MySQL
     // get - чтение значения свойства, а set записывает значение свойства

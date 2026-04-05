@@ -4,6 +4,8 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using WindowsFormsApp1;
 
+using WindowsFormsApp1.Forms; // форма приложения TranslatorApp
+
 namespace WindowsFormsApp1
 {
 

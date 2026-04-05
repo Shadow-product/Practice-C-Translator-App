@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WindowsFormsApp1
+namespace WindowsFormsApp1.Models
 {
     // Модель данных для хранения информации о переводе таблицы translations в MySQL
     // get - чтение значения свойства, а set записывает значение свойства

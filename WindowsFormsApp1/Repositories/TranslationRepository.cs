@@ -1,11 +1,11 @@
 ﻿using System;
-using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Asn1.Cmp;
-using System.Collections.Generic;
+using MySql.Data.MySqlClient; // работа с MySQL базой данных
 using System.Transactions;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp1
+using WindowsFormsApp1.Models; // собственные модели: User, Translation
+
+namespace WindowsFormsApp1.Repositories
 {
     public class TranslationRepository
     {

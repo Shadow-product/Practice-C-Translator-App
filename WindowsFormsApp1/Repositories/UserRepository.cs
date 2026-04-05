@@ -1,12 +1,10 @@
 ﻿using System;
-using MySql.Data.MySqlClient;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MySql.Data.MySqlClient; // работа с MySQL базой данных
 using System.Windows.Forms;
 
-namespace WindowsFormsApp1
+using WindowsFormsApp1.Models;
+
+namespace WindowsFormsApp1.Repositories
 {
     public class UserRepository
     {

@@ -1,11 +1,14 @@
 ﻿using System;
-using System.Configuration;
-using System.Windows.Forms;
-using MySql.Data.MySqlClient;
+using System.Configuration; // конфигурации Entity Framework
+using System.Windows.Forms; // элементы WinForms: Form, Button, Label
 using WindowsFormsApp1;
 using System.Threading.Tasks; // Для асинхронной работы
 
-namespace WindowsFormsApp1
+using WindowsFormsApp1.Models; // собственные модели: User, Translation
+using WindowsFormsApp1.Services;  // бизнес-логика и работа с API (TranslationService)
+using WindowsFormsApp1.Repositories; // классы доступа к данным (UserRepository, TranslationRepository)
+
+namespace WindowsFormsApp1.Forms
 {
     public partial class TranslatorApp : Form
     {
