@@ -1,4 +1,11 @@
-﻿namespace WindowsFormsApp1.Forms
+﻿using System;
+using System.Windows.Forms; // элементы WinForms: Form, Button, Label
+
+using WindowsFormsApp1.Models; 
+using WindowsFormsApp1.Services;
+using WindowsFormsApp1.Repositories;
+
+namespace WindowsFormsApp1.Forms
 {
     partial class TranslatorApp
     {

@@ -1,8 +1,8 @@
 ﻿using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json; // Для JsonConvert.DeserializeObject
-using Newtonsoft.Json.Linq; // Для работы с JObject (динамический JSON)
+using Newtonsoft.Json; // для JsonConvert.DeserializeObject
+using Newtonsoft.Json.Linq; // для работы с JObject (динамический JSON)
 
 using WindowsFormsApp1.Models; // собственные модели: User, Translation
 using WindowsFormsApp1.Repositories; // бизнес-логика и работа с API (TranslationService)
@@ -11,13 +11,20 @@ namespace WindowsFormsApp1.Services
 {
     public class TranslationService
     {
-        private readonly string apiKey = "ТВОЙ_API_KEY";
+        private readonly HttpClient _httpClient;
+        private readonly string _apiKey; // поле для хранения ключа API
+
+        public TranslationService(string apiKey) // конструктор с параметром
+        {
+            _httpClient = new HttpClient();
+            _apiKey = apiKey;
+        }
 
         public async Task<string> TranslateText(string text, string targetLang)
         {
             using (HttpClient client = new HttpClient())
             {
-                string url = $"https://translation.googleapis.com/language/translate/v2?key={apiKey}";
+                string url = $"https://translation.googleapis.com/language/translate/v2?key={_apiKey}";
 
                 var jsonBody = new
                 {

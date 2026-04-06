@@ -2,7 +2,7 @@
 using System.Configuration; // конфигурации Entity Framework
 using System.Windows.Forms; // элементы WinForms: Form, Button, Label
 using WindowsFormsApp1;
-using System.Threading.Tasks; // Для асинхронной работы
+using System.Threading.Tasks; // для асинхронной работы
 
 using WindowsFormsApp1.Models; // собственные модели: User, Translation
 using WindowsFormsApp1.Services;  // бизнес-логика и работа с API (TranslationService)
@@ -13,7 +13,8 @@ namespace WindowsFormsApp1.Forms
     public partial class TranslatorApp : Form
     {
 
-        private TranslationService _translationService = new TranslationService();
+        // Поля для сервисов и репозиториев
+        private TranslationService _translationService;
         private TranslationRepository _translationRepository;
 
         // Подключение к UserRepository и текущему пользователю для сохранения информации о том, кто сделал перевод
@@ -26,6 +27,14 @@ namespace WindowsFormsApp1.Forms
         public TranslatorApp()
         {
             InitializeComponent();
+
+            // Инициализация репозитория с обязательным параметром подключения для работы с базой данных
+            string connectionString = ConfigurationManager.ConnectionStrings["TranslatorAppDb"].ConnectionString;
+            _translationRepository = new TranslationRepository(connectionString);
+
+            // Инициализация сервиса перевода для работы с API и получения перевода текста
+            string apiKey = ConfigurationManager.AppSettings["ApiKey"];
+            _translationService = new TranslationService(apiKey);
         }
 
         private void TranslatorApp_Load(object sender, EventArgs e)
@@ -33,7 +42,7 @@ namespace WindowsFormsApp1.Forms
             try
             {
                 // Чтение строки подключения из файла App.config TranslatorAppDb имя строки подключения
-                string connectionString = ConfigurationManager.ConnectionStrings["TranslatorAppDb"].ConnectionString;
+                var connectionString = ConfigurationManager.ConnectionStrings["TranslatorAppDb"].ConnectionString;
                 _translationRepository = new TranslationRepository(connectionString);
                 //_userRepository = new UserRepository(connectionString);
 
@@ -74,17 +83,30 @@ namespace WindowsFormsApp1.Forms
 
             btnTranslate.Enabled = false;
             progressBar.Visible = true;
-            lblStatus.Text = "Перевод...";
+            lblStatus.Text = "Выполняется перевод...";
 
             try
             {
+
+                // Проверка на пустую строку в текстовом поле перевода через длину строки
+                if (txtSource.Text == null || txtSource.Text.Trim().Length == 0)
+                {
+                    lblStatus.Text = "Введите текст для перевода!";
+                    return;
+                }
+
+                string sourceText = txtSource.Text;
                 // Определение целевого языка (например, из ComboBox или просто "ru")
                 string targetLang = cbTargetLang.SelectedItem?.ToString() == "Английский" ? "en" : "ru";
+                if (cbTargetLang.SelectedItem == null)
+                {
+                    lblStatus.Text = "Выберите язык перевода!";
+                    return;
+                }
 
                 // вызов сервиса перевода TranslationService файл для получения перевода
                 string result = await _translationService.TranslateText(txtSource.Text, targetLang);
-
-                txtTarget.Text = result;
+                txtTarget.Text = result ?? "Перевод недоступен";
                 lblStatus.Text = "Готово";
 
                 // Сохранение в БД через репозиторий класса TranslationRepository и модели Translation
@@ -99,6 +121,7 @@ namespace WindowsFormsApp1.Forms
                 };
 
                 _translationRepository.SaveTranslation(translation);
+                lblStatus.Text = "Перевод сохранён!";
 
             }
             catch (Exception ex)

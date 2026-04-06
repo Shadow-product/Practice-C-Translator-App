@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+	<appSettings>
+		<!-- Пример подключения к API для разработчиков в команде,
+			 который можно использовать в secrets.config файле у каждого локально (отдельно).
+			 ApiKey имя строки подключения в конфигурации проекта файла App.config.
+			 value атрибуте - подключается API-ключ. -->
+		<add key="ApiKey" value="YOUR_API_KEY_HERE" />
+	</appSettings>

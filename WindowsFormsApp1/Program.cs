@@ -44,8 +44,15 @@ namespace WindowsFormsApp1
                 }
             }
 
-            // Запуск формы приложения 
-            Application.Run(new TranslatorApp());
+            // Запуск формы приложения с обработчиком ошибок
+            try
+            {
+                Application.Run(new TranslatorApp());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
     }
 }

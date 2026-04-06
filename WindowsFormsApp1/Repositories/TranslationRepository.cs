@@ -29,7 +29,7 @@ namespace WindowsFormsApp1.Repositories
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("❌ Ошибка подключения к MySQL: " + ex.Message);
+                    MessageBox.Show($"❌ Ошибка подключения к MySQL: {ex.Message}");
                     return false;
                 }
         }
