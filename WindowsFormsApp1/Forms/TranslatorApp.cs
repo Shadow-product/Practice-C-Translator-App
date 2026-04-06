@@ -106,8 +106,8 @@ namespace WindowsFormsApp1.Forms
 
                 // вызов сервиса перевода TranslationService файл для получения перевода
                 string result = await _translationService.TranslateText(txtSource.Text, targetLang);
-                txtTarget.Text = result ?? "Перевод недоступен";
-                lblStatus.Text = "Готово";
+                txtTarget.Text = result != null ? result : "Перевод недоступен";
+                lblStatus.Text = "Перевод готов!";
 
                 // Сохранение в БД через репозиторий класса TranslationRepository и модели Translation
                 var translation = new Translation
