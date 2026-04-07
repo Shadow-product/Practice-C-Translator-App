@@ -34,7 +34,7 @@ namespace WindowsFormsApp1.Forms
 
             // Инициализация сервиса перевода для работы с API и получения перевода текста
             string apiKey = ConfigurationManager.AppSettings["ApiKey"];
-            _translationService = new TranslationService(apiKey);
+            _translationService = new TranslationService();
         }
 
         private void TranslatorApp_Load(object sender, EventArgs e)
@@ -84,7 +84,11 @@ namespace WindowsFormsApp1.Forms
             btnTranslate.Enabled = false;
             progressBar.Visible = true;
             lblStatus.Text = "Выполняется перевод...";
+            string text = txtSource.Text;
+            string lang = cbTargetLang.SelectedItem.ToString();
 
+            string translated = await _translationService.TranslateText(text, lang);
+            txtTarget.Text = translated;
             try
             {
 

@@ -1,9 +1,10 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Configuration;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json; // для JsonConvert.DeserializeObject
 using Newtonsoft.Json.Linq; // для работы с JObject (динамический JSON)
-
 using WindowsFormsApp1.Models; // собственные модели: User, Translation
 using WindowsFormsApp1.Repositories; // бизнес-логика и работа с API (TranslationService)
 
@@ -11,42 +12,35 @@ namespace WindowsFormsApp1.Services
 {
     public class TranslationService
     {
-        private readonly HttpClient _httpClient;
-        private readonly string _apiKey; // поле для хранения ключа API
+        private readonly string apiKey;
 
-        public TranslationService(string apiKey) // конструктор с параметром
+        public TranslationService()
         {
-            _httpClient = new HttpClient();
-            _apiKey = apiKey;
+            apiKey = ConfigurationManager.AppSettings["ApiKey"];
         }
 
         public async Task<string> TranslateText(string text, string targetLang)
         {
             using (HttpClient client = new HttpClient())
             {
-                string url = $"https://translation.googleapis.com/language/translate/v2?key={_apiKey}";
-
-                var jsonBody = new
+                var content = new FormUrlEncodedContent(new[]
                 {
-                    q = text,
-                    target = targetLang,
-                    format = "text"
-                };
+                new KeyValuePair<string, string>("text", text),
+                new KeyValuePair<string, string>("target_lang", targetLang)
+            });
 
-                string json = Newtonsoft.Json.JsonConvert.SerializeObject(jsonBody);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                client.DefaultRequestHeaders.Add("Authorization", $"DeepL-Auth-Key {apiKey}");
 
-                HttpResponseMessage response = await client.PostAsync(url, content);
-                string responseBody = await response.Content.ReadAsStringAsync();
+                HttpResponseMessage response = await client.PostAsync(
+                    "https://api-free.deepl.com/v2/translate",
+                    content
+                );
 
-                return ExtractTranslation(responseBody);
+                string json = await response.Content.ReadAsStringAsync();
+
+                var obj = JObject.Parse(json);
+                return obj["translations"][0]["text"].ToString();
             }
-        }
-
-        private string ExtractTranslation(string json)
-        {
-            var obj = JObject.Parse(json);
-            return obj["data"]["translations"][0]["translatedText"].ToString();
         }
     }
 }
