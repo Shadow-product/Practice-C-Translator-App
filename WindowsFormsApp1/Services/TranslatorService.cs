@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json; // для JsonConvert.DeserializeObject
+using Newtonsoft.Json.Linq; // для работы с JObject (динамический JSON)
+using System.Collections.Generic;
 using System.Configuration;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json; // для JsonConvert.DeserializeObject
-using Newtonsoft.Json.Linq; // для работы с JObject (динамический JSON)
+using System.Windows.Forms;
+
 using WindowsFormsApp1.Models; // собственные модели: User, Translation
 using WindowsFormsApp1.Repositories; // бизнес-логика и работа с API (TranslationService)
 
@@ -12,11 +14,11 @@ namespace WindowsFormsApp1.Services
 {
     public class TranslationService
     {
-        private readonly string apiKey;
+        private readonly string _apiKey;
 
-        public TranslationService()
+        public TranslationService(string apiKey)
         {
-            apiKey = ConfigurationManager.AppSettings["ApiKey"];
+            _apiKey = ConfigurationManager.AppSettings["ApiKey"];
         }
 
         public async Task<string> TranslateText(string text, string targetLang)
@@ -29,7 +31,7 @@ namespace WindowsFormsApp1.Services
                 new KeyValuePair<string, string>("target_lang", targetLang)
             });
 
-                client.DefaultRequestHeaders.Add("Authorization", $"DeepL-Auth-Key {apiKey}");
+                client.DefaultRequestHeaders.Add("Authorization", $"DeepL-Auth-Key {_apiKey}");
 
                 HttpResponseMessage response = await client.PostAsync(
                     "https://api-free.deepl.com/v2/translate",
@@ -39,7 +41,13 @@ namespace WindowsFormsApp1.Services
                 string json = await response.Content.ReadAsStringAsync();
 
                 var obj = JObject.Parse(json);
-                return obj["translations"][0]["text"].ToString();
+                var translations = obj["translations"] as JArray;
+                if (translations != null && translations.Count > 0)
+                {
+                    var textTranslation = translations[0]["text"]?.ToString();
+                    return textTranslation != null && textTranslation != "" ? textTranslation : "Нет текста";
+                }
+                return "Нет перевода";
             }
         }
     }

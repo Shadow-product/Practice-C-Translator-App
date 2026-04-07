@@ -23,19 +23,35 @@ namespace WindowsFormsApp1.Repositories
                 try
                 {
                     connection.Open();
-                    MessageBox.Show("✅ Подключение к MySQL успешно!");
+                    MessageBox.Show("Подключение к MySQL успешно!");
                     return true;
 
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"❌ Ошибка подключения к MySQL: {ex.Message}");
+                    MessageBox.Show($"Ошибка подключения к MySQL: {ex.Message}");
                     return false;
                 }
         }
 
         public void SaveTranslation(Translation t)
         {
+            // Проверка корректности UserId
+            if (t.UserId <= 0)
+                throw new ArgumentException("UserId должен быть задан и больше 0");
+
+            // Создаём репозиторий пользователей
+            var userRepository = new UserRepository(_connectionString);
+
+            // Сначала проверяем пользователя
+            var user = userRepository.GetById(t.UserId);
+
+            if (user == null)
+            {
+                throw new InvalidOperationException($"Пользователь с id={t.UserId} не найден.");
+            }
+
+            // Если пользователь существует — сохраняем перевод
             using (var connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();

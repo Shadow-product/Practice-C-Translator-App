@@ -22,15 +22,38 @@ namespace WindowsFormsApp1.Repositories
                 try
                 {
                     connection.Open();
-                    MessageBox.Show("✅ Подключение к MySQL успешно!");
+                    MessageBox.Show("Подключение к MySQL успешно!");
                     return true;
 
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("❌ Ошибка подключения к MySQL: " + ex.Message);
+                    MessageBox.Show("Ошибка подключения к MySQL: " + ex.Message);
                     return false;
                 }
+        }
+
+        public User GetById(int id)
+        {
+            using (var connection = new MySqlConnection(_connectionString))
+            {
+                connection.Open();
+                var cmd = new MySqlCommand("SELECT id, username FROM users WHERE id=@id", connection);
+                cmd.Parameters.AddWithValue("@id", id);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return new User
+                        {
+                            Id = reader.GetInt32("id"),
+                            Username = reader.GetString("username")
+                        };
+                    }
+                }
+            }
+            return null;
         }
     }
 }
