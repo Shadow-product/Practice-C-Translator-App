@@ -85,7 +85,7 @@ namespace WindowsFormsApp1.Forms
                     TranslatedText = result,
                     DetectedLanguage = "ru", // можно доработать автоопределение
                     CreatedAt = DateTime.Now,
-                    UserId = 1 // временно фиксированный пользователь
+                    UserId = 4 // временно фиксированный пользователь
                 };
 
                 _translationRepository.SaveTranslation(translation);
