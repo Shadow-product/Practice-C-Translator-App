@@ -56,7 +56,7 @@ namespace WindowsFormsApp1.Forms
 
             try
             {
-                if (string.IsNullOrWhiteSpace(txtSource.Text))
+                if (txtSource.Text == null || txtSource.Text.Trim().Length == 0)
                 {
                     lblStatus.Text = "Введите текст для перевода!";
                     return;
