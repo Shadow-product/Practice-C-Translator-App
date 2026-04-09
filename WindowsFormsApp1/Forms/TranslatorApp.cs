@@ -15,14 +15,17 @@ namespace WindowsFormsApp1.Forms
         // Поля для сервисов и репозиториев
         private TranslationService _translationService;
         private TranslationRepository _translationRepository;
+        private UserRepository _userRepository;
 
         public TranslatorApp()
         {
+
             InitializeComponent();
 
             // Инициализация репозитория с обязательным параметром подключения для работы с базой данных
             string connectionString = ConfigurationManager.ConnectionStrings["TranslatorAppDb"].ConnectionString;
             _translationRepository = new TranslationRepository(connectionString);
+            _userRepository = new UserRepository(connectionString);
 
             // Инициализация сервиса перевода для работы с API и получения перевода текста
             string apiKey = ConfigurationManager.AppSettings["ApiKey"];
@@ -77,6 +80,7 @@ namespace WindowsFormsApp1.Forms
                 txtTarget.Text = result != null && result != "" ? result : "Перевод недоступен";
                 lblStatus.Text = "Перевод готов!";
 
+                var user = _userRepository.GetById(1); // берём первого пользователя
                 // Сохранение в БД
                 var translation = new Translation
                 {
@@ -85,7 +89,7 @@ namespace WindowsFormsApp1.Forms
                     TranslatedText = result,
                     DetectedLanguage = "ru", // можно доработать автоопределение
                     CreatedAt = DateTime.Now,
-                    UserId = 4 // временно фиксированный пользователь
+                    UserId = user.Id // временно фиксированный пользователь
                 };
 
                 _translationRepository.SaveTranslation(translation);
@@ -94,7 +98,7 @@ namespace WindowsFormsApp1.Forms
             catch (Exception ex)
             {
                 lblStatus.Text = "Ошибка перевода";
-                MessageBox.Show($"Ошибка перевода: {ex}");
+                MessageBox.Show($"Ошибка перевода: {ex.Message}");
             }
             finally
             {

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Configuration;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
+using System.Data.SQLite;
 using WindowsFormsApp1;
 
 using WindowsFormsApp1.Forms; // форма приложения TranslatorApp
+using WindowsFormsApp1.Data; // инициализация базы данных
 
 namespace WindowsFormsApp1
 {
@@ -19,23 +20,24 @@ namespace WindowsFormsApp1
             Application.SetCompatibleTextRenderingDefault(false);
 
             string connectionString = ConfigurationManager.ConnectionStrings["TranslatorAppDb"].ConnectionString;
+            DatabaseInitializer.Initialize(connectionString);
 
-            using (var connection = new MySqlConnection(connectionString))
+            using (var connection = new SQLiteConnection(connectionString))
             {
                 connection.Open();
 
                 // Вставляется запись - (id автоинкремент автоматически ставится первичный ключ)
                 string insertSql = "INSERT INTO users (username) VALUES (@username)";
-                using (var cmd = new MySqlCommand(insertSql, connection))
+                using (var cmd = new SQLiteCommand(insertSql, connection))
                 {
                     cmd.Parameters.AddWithValue("@username", "Тест");
                     cmd.ExecuteNonQuery();
                 }
 
                 // Чтение всех записей из таблицы users пример
-                string selectSql = "SELECT id, username FROM users";
-                using (var cmd = new MySqlCommand(selectSql, connection))
-                using (var reader = cmd.ExecuteReader())
+                string selectSql = "SELECT Id, Username FROM users";
+                using (var cmd = new SQLiteCommand(selectSql, connection))
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
