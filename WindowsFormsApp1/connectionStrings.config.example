@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-	<connectionStrings>
-		<!-- Пример подключения к БД MySQL для разработчиков в команде,
+<connectionStrings>
+	<!-- Пример подключения к БД SQLite для разработчиков в команде,
 			 который можно использовать в connectionStrings.config файле у каждого локально (отдельно).
 			 TranslatorAppDb имя строки подключения в конфигурации проекта файла App.config.
-			 Uid - имя пользователя базы данных, Pwd - пароль этого пользователя для примера. -->
-		<add name="TranslatorAppDb"
-			 connectionString="Server=localhost;Database=exampledatabase;Uid=rootproject;Pwd={PASSWORD_PLACEHOLDER};"
-			 providerName="MySql.Data.MySqlClient"/>
-	</connectionStrings>
+	add name = "TranslatorAppDb" строка подключения к БД SQLite для приложения-переводчика -->
+	<add name="TranslatorAppDb"
+		 connectionString="Data Source=translator_app_db;Version=3;"
+		 providerName="System.Data.SQLite"/>
+</connectionStrings>
