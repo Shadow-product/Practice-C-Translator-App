@@ -59,7 +59,7 @@ namespace WindowsFormsApp1.Forms
 
             try
             {
-                if (txtSource.Text == null || txtSource.Text.Trim().Length == 0)
+                if (string.IsNullOrWhiteSpace(txtSource.Text))
                 {
                     lblStatus.Text = "Введите текст для перевода!";
                     return;
@@ -72,27 +72,24 @@ namespace WindowsFormsApp1.Forms
                 }
 
                 string sourceText = txtSource.Text;
-                string targetLang = cbTargetLang.SelectedItem.ToString() == "Английский" ? "en" : "ru";
 
-                // Вызов API
-                string result = await _translationService.TranslateText(sourceText, targetLang);
+                // Преобразование языка
+                string targetLang = cbTargetLang.SelectedItem.ToString() == "Английский" ? "EN" : "RU";
 
-                txtTarget.Text = result != null && result != "" ? result : "Перевод недоступен";
+                var user = _userRepository.GetById(1); // текущий пользователь
+
+                // 🚀 Вызов API (теперь возвращает объект Translation)
+                var translation = await _translationService.TranslateText(sourceText, targetLang, user.Id);
+
+                // Вывод результата
+                txtTarget.Text = !string.IsNullOrEmpty(translation.TranslatedText)
+                    ? translation.TranslatedText
+                    : "Перевод недоступен";
                 lblStatus.Text = "Перевод готов!";
 
-                var user = _userRepository.GetById(1); // берём первого пользователя
-                // Сохранение в БД
-                var translation = new Translation
-                {
-                    SourceText = sourceText,
-                    TargetLanguage = targetLang,
-                    TranslatedText = result,
-                    DetectedLanguage = "ru", // можно доработать автоопределение
-                    CreatedAt = DateTime.Now,
-                    UserId = user.Id // временно фиксированный пользователь
-                };
-
+                // 💾 Сохранение в БД (уже готовый объект)
                 _translationRepository.SaveTranslation(translation);
+
                 lblStatus.Text = "Перевод сохранён!";
             }
             catch (Exception ex)
