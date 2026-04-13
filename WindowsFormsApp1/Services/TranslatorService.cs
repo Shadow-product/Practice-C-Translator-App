@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json; // для JsonConvert.DeserializeObject
 using Newtonsoft.Json.Linq; // для работы с JObject (динамический JSON)
+
 using WindowsFormsApp1.Models; // собственные модели: User, Translation
 using WindowsFormsApp1.Repositories; // бизнес-логика и работа с API (TranslationService)
 

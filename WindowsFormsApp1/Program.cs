@@ -19,6 +19,7 @@ namespace WindowsFormsApp1
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            // Инициализация репозитория с обязательным параметром подключения для работы с базой данных
             string connectionString = ConfigurationManager.ConnectionStrings["TranslatorAppDb"].ConnectionString;
             DatabaseInitializer.Initialize(connectionString);
 

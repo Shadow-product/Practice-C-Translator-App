@@ -104,6 +104,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\DatabaseInitializer.cs" />
+    <Compile Include="Forms\forms\TranslatorApp.cs" />
+    <Compile Include="Forms\forms\TranslatorApp.Designer.cs">
+      <DependentUpon>TranslatorApp.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Translation.cs" />
     <Compile Include="Repositories\TranslationRepository.cs" />
     <Compile Include="Forms\TranslatorApp.cs">
@@ -117,6 +121,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
+    <EmbeddedResource Include="Forms\forms\TranslatorApp.resx">
+      <DependentUpon>TranslatorApp.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

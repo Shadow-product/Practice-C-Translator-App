@@ -44,7 +44,7 @@ namespace WindowsFormsApp1.Data
                     if (count == 0)
                     {
                         // Если нет ни одного пользователя, создаём дефолтного
-                        using (var insertCmd = new SQLiteCommand("INSERT INTO Users (Username) VALUES ('DefaultUser')", connection))
+                        using (var insertCmd = new SQLiteCommand("INSERT INTO Users (Username) VALUES ('ApplicationUser')", connection))
                         {
                             insertCmd.ExecuteNonQuery();
                         }
