@@ -77,6 +77,10 @@ WindowsFormsApp1/
 ├── packages.config                  # NuGet пакеты и зависимости
 └── bin/                             # Служебные папки сборки
 └── obj/                             # Служебные файл компиляции
+.gitattributes                       # Настройки Git
+.gitignore                           # Игнорируемые файлы Git
+README.md                            # Документация проекта
+Translator-App.slnx                  # Решение файл проекта
 
 ## Установленные расширения и установщик:
 - Расширения для проверки хранения перевода скачать в Visual Studio SQLite and SQL Server Compact Toolbox (автор: ErikEJ).
