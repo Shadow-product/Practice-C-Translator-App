@@ -35,6 +35,3 @@ packages/
 *.ldf
 *.db
 App.config.local
-# Игнорируемые файлы с секретами
-/WindowsFormsApp1/connectionStrings.config
-/WindowsFormsApp1/appSettings.config
