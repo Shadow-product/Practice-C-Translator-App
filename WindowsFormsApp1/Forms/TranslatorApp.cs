@@ -115,16 +115,8 @@ namespace WindowsFormsApp1.Forms
                 case "Японский": return "JA";
                 case "Французский": return "FR";
                 case "Испанский": return "ES";
+                case "Польский": return "PL";
                 default: return "EN"; // если язык не распознан, по умолчанию английский
-            }
-        }
-
-        private void cbTargetLang_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cbTargetLang.SelectedItem != null)
-            {
-                string selectedLang = cbTargetLang.SelectedItem.ToString();
-                lblStatus.Text = $"Выбран язык перевода: {selectedLang}";
             }
         }
 

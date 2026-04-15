@@ -33,7 +33,7 @@ namespace WindowsFormsApp1.Forms
             // txtSource
             // 
             this.txtSource.Location = new System.Drawing.Point(16, 49);
-            this.txtSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtSource.Margin = new System.Windows.Forms.Padding(4);
             this.txtSource.Multiline = true;
             this.txtSource.Name = "txtSource";
             this.txtSource.Size = new System.Drawing.Size(452, 184);
@@ -42,7 +42,7 @@ namespace WindowsFormsApp1.Forms
             // txtTarget
             // 
             this.txtTarget.Location = new System.Drawing.Point(480, 49);
-            this.txtTarget.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtTarget.Margin = new System.Windows.Forms.Padding(4);
             this.txtTarget.Multiline = true;
             this.txtTarget.Name = "txtTarget";
             this.txtTarget.ReadOnly = true;
@@ -51,8 +51,8 @@ namespace WindowsFormsApp1.Forms
             // 
             // btnTranslate
             // 
-            this.btnTranslate.Location = new System.Drawing.Point(16, 246);
-            this.btnTranslate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnTranslate.Location = new System.Drawing.Point(772, 258);
+            this.btnTranslate.Margin = new System.Windows.Forms.Padding(4);
             this.btnTranslate.Name = "btnTranslate";
             this.btnTranslate.Size = new System.Drawing.Size(160, 43);
             this.btnTranslate.TabIndex = 3;
@@ -71,15 +71,14 @@ namespace WindowsFormsApp1.Forms
             "Немецкий",
             "Японский",
             "Французский",
-            "Испанский"
-            });
-            cbTargetLang.SelectedIndex = 0; // Русский язык по умолчанию
-            this.cbTargetLang.Location = new System.Drawing.Point(471, 17);
-            this.cbTargetLang.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            "Испанский",
+            "Польский"});
+            this.cbTargetLang.SelectedIndex = 1; // Английский язык по умолчанию
+            this.cbTargetLang.Location = new System.Drawing.Point(480, 17);
+            this.cbTargetLang.Margin = new System.Windows.Forms.Padding(4);
             this.cbTargetLang.Name = "cbTargetLang";
             this.cbTargetLang.Size = new System.Drawing.Size(160, 24);
             this.cbTargetLang.TabIndex = 2;
-            this.cbTargetLang.SelectedIndexChanged += new System.EventHandler(this.cbTargetLang_SelectedIndexChanged);
             // 
             // lblStatus
             // 
@@ -93,8 +92,8 @@ namespace WindowsFormsApp1.Forms
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(187, 258);
-            this.progressBar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.progressBar.Location = new System.Drawing.Point(481, 241);
+            this.progressBar.Margin = new System.Windows.Forms.Padding(4);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(283, 18);
             this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
@@ -112,7 +111,7 @@ namespace WindowsFormsApp1.Forms
             this.Controls.Add(this.btnTranslate);
             this.Controls.Add(this.txtTarget);
             this.Controls.Add(this.txtSource);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "TranslatorApp";
             this.Text = "DeepL Translator Pro";
             this.Load += new System.EventHandler(this.TranslatorApp_Load);
