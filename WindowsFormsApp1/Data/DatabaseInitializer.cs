@@ -37,7 +37,7 @@ namespace WindowsFormsApp1.Data
                     cmd.ExecuteNonQuery();
                 }
 
-                // Проверяем, есть ли пользователи
+                // Проверяем, есть ли пользователи на наличие
                 using (var checkCmd = new SQLiteCommand("SELECT COUNT(*) FROM Users", connection))
                 {
                     long count = (long)checkCmd.ExecuteScalar();

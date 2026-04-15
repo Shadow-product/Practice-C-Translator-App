@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO; // для работы с файлами
 using System.Configuration; // конфигурации Entity Framework
 using System.Windows.Forms; // элементы WinForms: Form, Button, Label
 using WindowsFormsApp1;
@@ -71,9 +72,8 @@ namespace WindowsFormsApp1.Forms
                     return;
                 }
 
-                string sourceText = txtSource.Text;
-
                 // Преобразование языка для всех языков
+                string sourceText = txtSource.Text;
                 string selectedLang = cbTargetLang.SelectedItem.ToString();
                 string targetLang = MapLanguageToCode(selectedLang);
 
@@ -89,7 +89,9 @@ namespace WindowsFormsApp1.Forms
                 lblStatus.Text = "Перевод готов!";
 
                 // Сохранение в БД
-                _translationRepository.SaveTranslation(translation);
+                translation = _translationRepository.SaveTranslation(translation);
+                // Сохранение файла с рядом .exe
+                SaveTranslationToFile(translation);
                 lblStatus.Text = "Перевод сохранён!";
             }
             catch (Exception ex)
@@ -102,6 +104,15 @@ namespace WindowsFormsApp1.Forms
                 btnTranslate.Enabled = true;
                 progressBar.Visible = false;
             }
+        }
+
+        private void SaveTranslationToFile(Translation t)
+        {
+            string exeFolder = Application.StartupPath; // папка с .exe файлом приложения
+            string filePath = exeFolder + "\\TranslatorHistory.txt"; // \\ escape-последовательность для обратного слэша
+            string line = $"{t.Id} | {t.SourceText} | {t.DetectedLanguage} | {t.TargetLanguage} | {t.TranslatedText} | {t.CreatedAt:dd.MM.yyyy HH:mm} | {t.UserId}";
+
+            File.AppendAllText(filePath, line + Environment.NewLine);
         }
 
         private string MapLanguageToCode(string languageSelection)

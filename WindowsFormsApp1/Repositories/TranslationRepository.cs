@@ -37,20 +37,20 @@ namespace WindowsFormsApp1.Repositories
 
         // Сохранение перевода в базе данных с проверкой существования пользователя 
         // Create (создание) для переводов 
-        public void SaveTranslation(Translation t)
+        public Translation SaveTranslation(Translation t)
         {
             // Проверка корректности UserId
             if (t.UserId <= 0)
-                throw new ArgumentException("UserId должен быть задан и больше 0");
+                t.UserId = 1; // всегда один пользователь
 
             // Создаём репозиторий пользователей
             var userRepository = new UserRepository(_connectionString);
-
             // Сначала проверяем пользователя
             var user = userRepository.GetById(t.UserId);
+
             if (user == null)
             {
-                throw new InvalidOperationException($"Пользователь с id={t.UserId} не найден.");
+                throw new Exception($"Пользователь с id={t.UserId} не найден.");
             }
 
             // Если пользователь существует — сохраняем перевод
@@ -58,21 +58,24 @@ namespace WindowsFormsApp1.Repositories
             {
                 connection.Open();
 
-                var cmd = new SQLiteCommand(
-                    "INSERT INTO Translations (SourceText, DetectedLanguage, TargetLanguage, " +
-                    "TranslatedText, CreatedAt, UserId) " +
-                    "VALUES (@s,@d,@t,@tr,@c,@u)", connection);
+                    using (var command = connection.CreateCommand())
+                    {
+                        command.CommandText = "INSERT INTO Translations (SourceText, DetectedLanguage, TargetLanguage, TranslatedText, CreatedAt, UserId) " +
+                                              "VALUES (@src, @det, @tgt, @txt, @created, @userId); SELECT last_insert_rowid();";
 
-                cmd.Parameters.AddWithValue("@s", t.SourceText);
-                cmd.Parameters.AddWithValue("@d", t.DetectedLanguage);
-                cmd.Parameters.AddWithValue("@t", t.TargetLanguage);
-                cmd.Parameters.AddWithValue("@tr", t.TranslatedText);
-                cmd.Parameters.AddWithValue("@c", t.CreatedAt);
-                cmd.Parameters.AddWithValue("@u", t.UserId);
+                        command.Parameters.AddWithValue("@src", t.SourceText);
+                        command.Parameters.AddWithValue("@det", t.DetectedLanguage);
+                        command.Parameters.AddWithValue("@tgt", t.TargetLanguage);
+                        command.Parameters.AddWithValue("@txt", t.TranslatedText);
+                        command.Parameters.AddWithValue("@created", t.CreatedAt);
+                        command.Parameters.AddWithValue("@userId", t.UserId);
 
-                cmd.ExecuteNonQuery();
+                        var newId = (long)command.ExecuteScalar();
+                        t.Id = (int)newId;
+                    }
+                }
+                return t;
             }
-        }
 
         // Read (чтение одного перевода по Id)
         public Translation GetById(int id)
@@ -130,7 +133,7 @@ namespace WindowsFormsApp1.Repositories
                                 TargetLanguage = reader.GetString(3),
                                 TranslatedText = reader.IsDBNull(4) ? null : reader.GetString(4),
                                 CreatedAt = reader.GetDateTime(5),
-                                UserId = userId
+                                UserId = userId 
                             });
                         }
                     }
