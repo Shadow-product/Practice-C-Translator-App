@@ -32,7 +32,7 @@ namespace WindowsFormsApp1.Forms
             // 
             // txtSource
             // 
-            this.txtSource.Location = new System.Drawing.Point(16, 49);
+            this.txtSource.Location = new System.Drawing.Point(19, 49);
             this.txtSource.Margin = new System.Windows.Forms.Padding(4);
             this.txtSource.Multiline = true;
             this.txtSource.Name = "txtSource";
