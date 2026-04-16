@@ -80,7 +80,7 @@ namespace WindowsFormsApp1.Forms
             // 
             this.cbTargetLang.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbTargetLang.BackColor = System.Drawing.Color.White;
-            this.cbTargetLang.Cursor = System.Windows.Forms.Cursors.WaitCursor;
+            this.cbTargetLang.Cursor = System.Windows.Forms.Cursors.Default;
             this.cbTargetLang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbTargetLang.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbTargetLang.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
