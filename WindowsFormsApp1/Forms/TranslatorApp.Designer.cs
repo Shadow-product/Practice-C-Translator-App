@@ -32,37 +32,59 @@ namespace WindowsFormsApp1.Forms
             // 
             // txtSource
             // 
-            this.txtSource.Location = new System.Drawing.Point(19, 49);
-            this.txtSource.Margin = new System.Windows.Forms.Padding(4);
+            this.txtSource.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.txtSource.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtSource.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtSource.ForeColor = System.Drawing.Color.Gainsboro;
+            this.txtSource.Location = new System.Drawing.Point(21, 70);
+            this.txtSource.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.txtSource.Multiline = true;
             this.txtSource.Name = "txtSource";
-            this.txtSource.Size = new System.Drawing.Size(452, 184);
+            this.txtSource.Size = new System.Drawing.Size(508, 264);
             this.txtSource.TabIndex = 5;
+            this.txtSource.UseWaitCursor = true;
+            this.txtSource.TextChanged += new System.EventHandler(this.txtSource_TextChanged);
             // 
             // txtTarget
             // 
-            this.txtTarget.Location = new System.Drawing.Point(480, 49);
-            this.txtTarget.Margin = new System.Windows.Forms.Padding(4);
+            this.txtTarget.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTarget.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.txtTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtTarget.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtTarget.ForeColor = System.Drawing.Color.Gainsboro;
+            this.txtTarget.Location = new System.Drawing.Point(540, 70);
+            this.txtTarget.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.txtTarget.Multiline = true;
             this.txtTarget.Name = "txtTarget";
             this.txtTarget.ReadOnly = true;
-            this.txtTarget.Size = new System.Drawing.Size(452, 184);
+            this.txtTarget.Size = new System.Drawing.Size(508, 264);
             this.txtTarget.TabIndex = 4;
+            this.txtTarget.UseWaitCursor = true;
             // 
             // btnTranslate
             // 
-            this.btnTranslate.Location = new System.Drawing.Point(772, 258);
-            this.btnTranslate.Margin = new System.Windows.Forms.Padding(4);
+            this.btnTranslate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTranslate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            this.btnTranslate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTranslate.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnTranslate.Location = new System.Drawing.Point(868, 371);
+            this.btnTranslate.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btnTranslate.Name = "btnTranslate";
-            this.btnTranslate.Size = new System.Drawing.Size(160, 43);
+            this.btnTranslate.Size = new System.Drawing.Size(180, 62);
             this.btnTranslate.TabIndex = 3;
             this.btnTranslate.Text = "Перевести";
-            this.btnTranslate.UseVisualStyleBackColor = true;
+            this.btnTranslate.UseVisualStyleBackColor = false;
+            this.btnTranslate.UseWaitCursor = true;
             this.btnTranslate.Click += new System.EventHandler(this.btnTranslate_Click);
             // 
             // cbTargetLang
             // 
+            this.cbTargetLang.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbTargetLang.BackColor = System.Drawing.Color.White;
+            this.cbTargetLang.Cursor = System.Windows.Forms.Cursors.Default;
             this.cbTargetLang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbTargetLang.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbTargetLang.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cbTargetLang.FormattingEnabled = true;
             this.cbTargetLang.Items.AddRange(new object[] {
             "Русский",
@@ -73,47 +95,60 @@ namespace WindowsFormsApp1.Forms
             "Французский",
             "Испанский",
             "Польский"});
-            this.cbTargetLang.SelectedIndex = 1; // Английский язык по умолчанию
-            this.cbTargetLang.Location = new System.Drawing.Point(480, 17);
-            this.cbTargetLang.Margin = new System.Windows.Forms.Padding(4);
+            this.cbTargetLang.Location = new System.Drawing.Point(540, 19);
+            this.cbTargetLang.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.cbTargetLang.Name = "cbTargetLang";
-            this.cbTargetLang.Size = new System.Drawing.Size(160, 24);
+            this.cbTargetLang.Size = new System.Drawing.Size(508, 31);
             this.cbTargetLang.TabIndex = 2;
+            this.cbTargetLang.SelectedIndexChanged += new System.EventHandler(this.cbTargetLang_SelectedIndexChanged);
             // 
             // lblStatus
             // 
+            this.lblStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(16, 308);
+            this.lblStatus.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblStatus.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lblStatus.Location = new System.Drawing.Point(18, 443);
             this.lblStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(126, 16);
+            this.lblStatus.Size = new System.Drawing.Size(152, 23);
             this.lblStatus.TabIndex = 1;
             this.lblStatus.Text = "Статус: Ожидание";
+            this.lblStatus.UseWaitCursor = true;
+            this.lblStatus.Click += new System.EventHandler(this.lblStatus_Click);
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(481, 241);
-            this.progressBar.Margin = new System.Windows.Forms.Padding(4);
+            this.progressBar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.progressBar.Location = new System.Drawing.Point(21, 346);
+            this.progressBar.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(283, 18);
-            this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.progressBar.Size = new System.Drawing.Size(1027, 14);
+            this.progressBar.Step = 1;
+            this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar.TabIndex = 0;
+            this.progressBar.UseWaitCursor = true;
             this.progressBar.Visible = false;
+            this.progressBar.Click += new System.EventHandler(this.progressBar_Click);
             // 
             // TranslatorApp
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(953, 345);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.ClientSize = new System.Drawing.Size(1072, 496);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.cbTargetLang);
             this.Controls.Add(this.btnTranslate);
             this.Controls.Add(this.txtTarget);
             this.Controls.Add(this.txtSource);
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
+            this.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.Name = "TranslatorApp";
-            this.Text = "DeepL Translator Pro";
+            this.Text = "DeepL Translator";
+            this.UseWaitCursor = true;
             this.Load += new System.EventHandler(this.TranslatorApp_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

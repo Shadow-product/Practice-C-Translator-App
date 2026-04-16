@@ -135,5 +135,25 @@ namespace WindowsFormsApp1.Forms
         {
             Application.Exit();
         }
+
+        private void progressBar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblStatus_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtSource_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbTargetLang_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
