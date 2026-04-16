@@ -1,13 +1,12 @@
 ﻿using System;
-using System.IO; // для работы с файлами
 using System.Configuration; // конфигурации Entity Framework
+using System.IO; // для работы с файлами
+using System.Threading.Tasks; // для асинхронной работы
 using System.Windows.Forms; // элементы WinForms: Form, Button, Label
 using WindowsFormsApp1;
-using System.Threading.Tasks; // для асинхронной работы
-
 using WindowsFormsApp1.Models; // собственные модели: User, Translation
-using WindowsFormsApp1.Services;  // бизнес-логика и работа с API (TranslationService)
 using WindowsFormsApp1.Repositories; // классы доступа к данным (UserRepository, TranslationRepository)
+using WindowsFormsApp1.Services;  // бизнес-логика и работа с API (TranslationService)
 
 namespace WindowsFormsApp1.Forms
 {
