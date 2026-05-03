@@ -13,6 +13,7 @@ namespace WindowsFormsApp1
     // Пример подключения к MySQL, что она работает и сохраняются данные в базу данных
     static class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
 
