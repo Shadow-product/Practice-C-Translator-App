@@ -1,26 +1,26 @@
 ﻿using System;
 using System.Configuration;
-using System.IO;
+using System.IO; // для работы с файлами
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
+using System.Threading.Tasks; // для асинхронной работы
 using System.Windows.Forms;
 using WindowsFormsApp1;
 using WindowsFormsApp1.Models;
-using WindowsFormsApp1.Repositories;
-using WindowsFormsApp1.Services;
+using WindowsFormsApp1.Repositories; // классы доступа к данным (UserRepository, TranslationRepository)
+using WindowsFormsApp1.Services; // бизнес-логика и работа с API (TranslationService)
 
 namespace WindowsFormsApp1.Forms
 {
     public partial class TranslatorApp : Form
     {
-        // ── Плейсхолдеры ─────────────────────────────────────────────
+        // Плейсхолдеры
         private const string SourcePlaceholder = "Введите текст для перевода...";
         private const string TargetPlaceholder = "Здесь появится перевод...";
 
         private readonly System.Drawing.Color _placeholderColor = System.Drawing.Color.DimGray;
         private readonly System.Drawing.Color _textColor = System.Drawing.Color.Gainsboro;
 
-        // ── Перетаскивание безрамочного окна ─────────────────────────
+        // Перетаскивание безрамочного окна
         [DllImport("user32.dll")]
         private static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
         [DllImport("user32.dll")]
@@ -33,7 +33,7 @@ namespace WindowsFormsApp1.Forms
         private const int WM_NCLBUTTONDOWN = 0xA1;
         private const int HT_CAPTION = 0x2;
 
-        // ── Сервисы и репозитории ─────────────────────────────────────
+        // Поля для сервисов и репозиториев
         private TranslationService _translationService;
         private TranslationRepository _translationRepository;
         private UserRepository _userRepository;
@@ -42,10 +42,12 @@ namespace WindowsFormsApp1.Forms
         {
             InitializeComponent();
 
+            // Инициализация репозитория с обязательным параметром подключения для работы с базой данных
             string connectionString = ConfigurationManager.ConnectionStrings["TranslatorAppDb"].ConnectionString;
             _translationRepository = new TranslationRepository(connectionString);
             _userRepository = new UserRepository(connectionString);
 
+            // Инициализация сервиса перевода для работы с API и получения перевода текста
             string apiKey = ConfigurationManager.AppSettings["ApiKey"];
             _translationService = new TranslationService(apiKey);
         }
@@ -68,6 +70,7 @@ namespace WindowsFormsApp1.Forms
             {
                 var cs = ConfigurationManager.ConnectionStrings["TranslatorAppDb"].ConnectionString;
                 _translationRepository = new TranslationRepository(cs);
+                // Проверка подключения к базе данных
                 lblStatus.Text = _translationRepository.CheckDbConnection()
                     ? "База данных: Подключено"
                     : "База данных: Ошибка";
@@ -79,7 +82,7 @@ namespace WindowsFormsApp1.Forms
             }
         }
 
-        // ── Перетаскивание окна ───────────────────────────────────────
+        // Перетаскивание окна
 
         private void titleBar_MouseDown(object sender, MouseEventArgs e)
         {
@@ -90,12 +93,12 @@ namespace WindowsFormsApp1.Forms
             }
         }
 
-        // ── Кнопки управления окном ───────────────────────────────────
+        // Кнопки управления окном 
 
         private void btnClose_Click(object sender, EventArgs e) => this.Close();
         private void btnMinimize_Click(object sender, EventArgs e) => this.WindowState = FormWindowState.Minimized;
 
-        // ── Swap: поменять тексты местами ────────────────────────────
+        // Swap: поменять тексты местами 
 
         private void btnSwap_Click(object sender, EventArgs e)
         {
@@ -133,7 +136,7 @@ namespace WindowsFormsApp1.Forms
             UpdateCharCount();
         }
 
-        // ── Копировать перевод ────────────────────────────────────────
+        // Копировать перевод
 
         private void btnCopy_Click(object sender, EventArgs e)
         {
@@ -157,7 +160,7 @@ namespace WindowsFormsApp1.Forms
             timer.Start();
         }
 
-        // ── Плейсхолдер txtSource ─────────────────────────────────────
+        // Плейсхолдер txtSource 
 
         private void txtSource_Enter(object sender, EventArgs e)
         {
@@ -178,7 +181,7 @@ namespace WindowsFormsApp1.Forms
             }
         }
 
-        // ── Счётчик символов ─────────────────────────────────────────
+        // Счётчик символов 
 
         private void txtSource_TextChanged(object sender, EventArgs e)
         {
@@ -191,7 +194,7 @@ namespace WindowsFormsApp1.Forms
             lblCharCount.Text = $"{count} символов";
         }
 
-        // ── Перевод ───────────────────────────────────────────────────
+        // Перевод
 
         private async void btnTranslate_Click(object sender, EventArgs e)
         {
@@ -213,24 +216,22 @@ namespace WindowsFormsApp1.Forms
                     return;
                 }
 
+                // Преобразование языка для всех языков
                 string sourceText = txtSource.Text;
                 string targetLang = MapLanguageToCode(cbTargetLang.SelectedItem.ToString());
-                var user = _userRepository.GetById(1);
+
+                var user = _userRepository.GetById(1); // текущий пользователь (локальная БД сохранение под 1 пользователя)
+
+                // Вызов API (теперь возвращает объект Translation)
                 var translation = await _translationService.TranslateText(sourceText, targetLang, user.Id);
 
-                if (!string.IsNullOrEmpty(translation.TranslatedText))
-                {
-                    txtTarget.ForeColor = _textColor;
-                    txtTarget.Text = translation.TranslatedText;
-                }
-                else
-                {
-                    txtTarget.ForeColor = _placeholderColor;
-                    txtTarget.Text = TargetPlaceholder;
-                }
-
+                // Вывод результата
+                txtTarget.Text = !string.IsNullOrEmpty(translation.TranslatedText)
+                    ? translation.TranslatedText
+                    : "Перевод недоступен";
                 lblStatus.Text = "Перевод готов!";
 
+                // Сохранение в БД
                 translation = _translationRepository.SaveTranslation(translation);
                 SaveTranslationToFile(translation);
                 lblStatus.Text = "Перевод сохранён!";
@@ -247,15 +248,18 @@ namespace WindowsFormsApp1.Forms
             }
         }
 
-        // ── Вспомогательные ──────────────────────────────────────────
+        // Сохранение перевода в текстовый файл (для истории переводов)
 
         private void SaveTranslationToFile(Translation t)
         {
-            string path = Path.Combine(Application.StartupPath, "TranslatorHistory.txt");
+            string exeFolder = Application.StartupPath; // папка с .exe файлом приложения
+            string filePath = exeFolder + "\\TranslatorHistory.txt"; // \\ escape-последовательность для обратного слэша
             string line = $"{t.Id} | {t.SourceText} | {t.DetectedLanguage} | {t.TargetLanguage} | {t.TranslatedText} | {t.CreatedAt:dd.MM.yyyy HH:mm} | {t.UserId}";
-            File.AppendAllText(path, line + Environment.NewLine);
+
+            File.AppendAllText(filePath, line + Environment.NewLine);
         }
 
+        // Преобразование выбранного языка в код для API
         private string MapLanguageToCode(string lang)
         {
             switch (lang)
@@ -277,7 +281,7 @@ namespace WindowsFormsApp1.Forms
             SetWindowRgn(this.Handle, hRgn, true);
         }
 
-        // ── Заглушки ─────────────────────────────────────────────────
+        // Заглушки 
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e) => Application.Exit();
         private void progressBar_Click(object sender, EventArgs e) { }
