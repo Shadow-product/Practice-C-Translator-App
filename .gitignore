@@ -35,3 +35,6 @@ packages/
 *.ldf
 *.db
 App.config.local
+# Игнорируем конфиги с ключами и строками подключения
+connectionStrings.config
+appSettings.config
