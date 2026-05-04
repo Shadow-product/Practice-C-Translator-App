@@ -38,3 +38,5 @@ App.config.local
 # Игнорируем конфиги с ключами и строками подключения
 connectionStrings.config
 appSettings.config
+# История переводов не попадет в коммиты
+TranslatorHistory.txt
