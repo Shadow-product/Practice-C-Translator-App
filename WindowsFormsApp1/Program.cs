@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Configuration;
 using System.Windows.Forms;
 using System.Data.SQLite;
@@ -16,6 +17,11 @@ namespace WindowsFormsApp1
         [STAThread]
         static void Main(string[] args)
         {
+            // Всегда создаём пустой файл истории при запуске
+            File.WriteAllText("TranslatorHistory.txt", string.Empty);
+
+            // Дальше идёт твой основной код
+            Console.WriteLine("Программа запущена!");
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
